@@ -31,8 +31,18 @@ const PartB: React.FC = () => {
       <h1>Party B Interface</h1>
       <p>Settlement Amount: {amount}</p>
       <p>Current Status: {status}</p>
-      <button onClick={() => handleResponse('agreed')}>Agree</button>
-      <button onClick={() => handleResponse('disputed')}>Dispute</button>
+      <button
+        className="bg-green-500 text-white p-2 rounded mr-2"
+        onClick={() => handleResponse('agreed')}
+      >
+        Agree
+      </button>
+      <button
+        className="bg-red-500 text-white p-2 rounded"
+        onClick={() => handleResponse('disputed')}
+      >
+        Dispute
+      </button>
     </div>
   );
 };

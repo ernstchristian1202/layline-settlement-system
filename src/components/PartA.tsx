@@ -34,7 +34,7 @@ const PartA: React.FC = () => {
         value={amount}
         onChange={(e) => setAmount(Number(e.target.value))}
       />
-      <button onClick={handleSubmit}>Submit</button>
+      <button type="submit" className="bg-blue-500 text-white p-2 rounded" onClick={handleSubmit}>Submit</button>
       <p>Current Status: {status}</p>
     </div>
   );
