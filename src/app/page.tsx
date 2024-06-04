@@ -3,9 +3,9 @@
 import React from 'react';
 import {
   Login,
-  PartyBInterface,
+  PartB,
   ResponseDisplay,
-  SettlementForm,
+  PartA,
   useAuth,
 } from '../components';
 
@@ -21,11 +21,11 @@ const HomeContent: React.FC = () => {
       <h1 className="text-2xl font-bold mb-4">Settlement System</h1>
       {user === 'A' && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <SettlementForm />
+          <PartA />
           <ResponseDisplay />
         </div>
       )}
-      {user === 'B' && <PartyBInterface />}
+      {user === 'B' && <PartB />}
     </div>
   );
 };

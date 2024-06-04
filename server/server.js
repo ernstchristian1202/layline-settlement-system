@@ -1,67 +1,55 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const next = require('next');
-const ws = require('ws');
+const cors = require('cors');
+const WebSocket = require('ws');
 
-const dev = process.env.NODE_ENV !== 'production';
-const app = next({ dev });
-const handle = app.getRequestHandler();
+const app = express();
+const port = 3001;
 
-const settlementState = {
-  amount: 0,
-  response: '',
+app.use(bodyParser.json());
+app.use(cors());
+
+let currentSettlementAmount = 0;
+let currentSettlementStatus = '';
+
+// Initialize a simple server
+const server = app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});
+
+// Initialize the WebSocket server instance
+const wss = new WebSocket.Server({ server });
+
+wss.on('connection', (ws) => {
+  console.log('New client connected');
+  // Send the current state to the newly connected client
+  ws.send(JSON.stringify({
+    amount: currentSettlementAmount,
+    status: currentSettlementStatus
+  }));
+
+  ws.on('close', () => {
+    console.log('Client disconnected');
+  });
+});
+
+const broadcast = (data) => {
+  wss.clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify(data));
+    }
+  });
 };
 
-app.prepare().then(() => {
-  const server = express();
+app.post('/api/submit', (req, res) => {
+  currentSettlementAmount = req.body.amount;
+  currentSettlementStatus = 'pending';
+  broadcast({ amount: currentSettlementAmount, status: currentSettlementStatus });
+  res.json({ amount: currentSettlementAmount, status: currentSettlementStatus });
+});
 
-  server.use(bodyParser.json());
-
-  server.get('/api/settlement', (req, res) => {
-    res.json({ amount: settlementState.amount, message: settlementState.response });
-  });
-
-  server.post('/api/settlement', (req, res) => {
-    const { amount, action } = req.body;
-    if (amount !== undefined) {
-      settlementState.amount = amount;
-    }
-    if (action) {
-      settlementState.response = action === 'agree' ? 'Agreed' : 'Disputed';
-    }
-    res.json(settlementState);
-  });
-
-  server.all('*', (req, res) => {
-    return handle(req, res);
-  });
-
-  const wsServer = new ws.Server({ noServer: true });
-
-  wsServer.on('connection', (socket) => {
-    socket.on('message', (message) => {
-      const data = JSON.parse(message);
-      if (data.type === 'update') {
-        settlementState.amount = data.amount;
-        settlementState.response = data.response;
-      }
-      wsServer.clients.forEach((client) => {
-        if (client.readyState === ws.OPEN) {
-          client.send(JSON.stringify(settlementState));
-        }
-      });
-    });
-  });
-
-  const port = process.env.PORT || 3000;
-  server.listen(port, (err) => {
-    if (err) throw err;
-    console.log(`> Ready on http://localhost:${port}`);
-  });
-
-  server.on('upgrade', (request, socket, head) => {
-    wsServer.handleUpgrade(request, socket, head, (ws) => {
-      wsServer.emit('connection', ws, request);
-    });
-  });
+app.post('/api/respond', (req, res) => {
+  currentSettlementStatus = req.body.status;
+  broadcast({ amount: currentSettlementAmount, status: currentSettlementStatus });
+  res.json({ amount: currentSettlementAmount, status: currentSettlementStatus });
 });

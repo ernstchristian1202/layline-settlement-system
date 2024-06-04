@@ -1,5 +1,5 @@
 export * from './AuthContext';
 export * from './Login';
-export * from './PartyBInterface';
+export * from './PartB';
 export * from './ResponseDisplay';
-export * from './SettlementForm';
+export * from './PartA';
