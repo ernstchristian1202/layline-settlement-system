@@ -1,48 +1,38 @@
-"use client";
+"use client"; // Ensure this is a client component
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const PartyBInterface: React.FC = () => {
-  const [amount, setAmount] = useState<number | null>(null);
+  const [response, setResponse] = useState<string>('');
 
   useEffect(() => {
-    const ws = new WebSocket('ws://localhost:4000');
-    ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      if (data.type === 'updateAmount') {
-        setAmount(data.amount);
-      }
+    const fetchData = async () => {
+      const result = await axios.get('/api/settlement');
+      setResponse(result.data.message);
     };
 
-    axios.get('/api/settlement').then(res => {
-      setAmount(res.data.amount);
-    });
-
-    return () => {
-      ws.close();
-    };
+    fetchData();
   }, []);
 
-  const handleResponse = (response: string) => {
-    axios.post('/api/settlement', { response }).then(res => {
-      // Handle response
-    });
+  const handleResponse = async (action: 'agree' | 'dispute') => {
+    await axios.post('/api/settlement', { action });
+    setResponse(action === 'agree' ? 'Agreed' : 'Disputed');
   };
 
   return (
-    <div className="bg-white p-4 rounded shadow mt-4">
-      <h1 className="text-xl font-bold mb-2">Party B: Review Settlement Amount</h1>
-      {amount !== null ? <p>Proposed Amount: {amount}</p> : <p>Loading...</p>}
-      <button 
-        onClick={() => handleResponse('agree')} 
+    <div className="p-4 border rounded">
+      <h2 className="text-xl font-bold mb-4">Party B Interface</h2>
+      <p>Current Response: {response}</p>
+      <button
         className="bg-green-500 text-white p-2 rounded mr-2"
+        onClick={() => handleResponse('agree')}
       >
         Agree
       </button>
-      <button 
-        onClick={() => handleResponse('dispute')} 
+      <button
         className="bg-red-500 text-white p-2 rounded"
+        onClick={() => handleResponse('dispute')}
       >
         Dispute
       </button>
@@ -51,4 +41,3 @@ const PartyBInterface: React.FC = () => {
 };
 
 export default PartyBInterface;
-export { PartyBInterface };

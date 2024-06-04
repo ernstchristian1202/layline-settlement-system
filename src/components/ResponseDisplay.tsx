@@ -1,24 +1,26 @@
-"use client";
+"use client"; // Ensure this is a client component
 
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const ResponseDisplay: React.FC = () => {
-    const [response, setResponse] = useState<string | null>(null);
-  
-    useEffect(() => {
-      axios.get('/api/settlement').then(res => {
-        setResponse(res.data.response);
-      });
-    }, []);
-  
-    return (
-      <div className="bg-white p-4 rounded shadow">
-        <h2 className="text-xl font-bold mb-2">Party B's Response</h2>
-        {response ? <p>{response}</p> : <p>No response yet</p>}
-      </div>
-    );
-  };
-  
+  const [response, setResponse] = useState<string>('');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios.get('/api/settlement');
+      setResponse(result.data.message);
+    };
+
+    fetchData();
+  }, []);
+
+  return (
+    <div className="p-4 border rounded">
+      <h2 className="text-xl font-bold mb-4">Response Display</h2>
+      <p>Current Response: {response}</p>
+    </div>
+  );
+};
+
 export default ResponseDisplay;
-export { ResponseDisplay };  
