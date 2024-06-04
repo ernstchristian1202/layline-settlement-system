@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const ResponseDisplay: React.FC = () => {
+const Response: React.FC = () => {
   const [response, setResponse] = useState<string>('');
 
   useEffect(() => {
@@ -23,5 +23,5 @@ const ResponseDisplay: React.FC = () => {
   );
 };
 
-export default ResponseDisplay;
-export { ResponseDisplay };
+export default Response;
+export { Response };
