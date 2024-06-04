@@ -1,11 +1,13 @@
 "use client";
 
 import React from 'react';
-import { useAuth } from '../components/AuthContext';
-import Login from '../components/Login';
-import SettlementForm from '../components/SettlementForm';
-import PartyBInterface from '../components/PartyBInterface';
-import ResponseDisplay from '../components/ResponseDisplay';
+import {
+  Login,
+  PartyBInterface,
+  ResponseDisplay,
+  SettlementForm,
+  useAuth,
+} from '../components';
 
 const HomeContent: React.FC = () => {
   const { user } = useAuth();

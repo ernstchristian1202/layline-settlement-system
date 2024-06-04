@@ -1,4 +1,4 @@
-"use client"; // Ensure this is a client component
+"use client";
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -24,3 +24,4 @@ const ResponseDisplay: React.FC = () => {
 };
 
 export default ResponseDisplay;
+export { ResponseDisplay };

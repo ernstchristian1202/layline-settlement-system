@@ -1,12 +1,12 @@
-"use client"; // Ensure this is a client component
+"use client";
 
-import React, { useState } from 'react';
+import React, { FC, FormEvent, useState } from 'react';
 import axios from 'axios';
 
-const SettlementForm: React.FC = () => {
+const SettlementForm: FC = () => {
   const [amount, setAmount] = useState<number>(0);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     await axios.post('/api/settlement', { amount });
   };
@@ -32,3 +32,4 @@ const SettlementForm: React.FC = () => {
 };
 
 export default SettlementForm;
+export { SettlementForm };

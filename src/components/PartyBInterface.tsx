@@ -1,12 +1,13 @@
-"use client"; // Ensure this is a client component
+"use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FC } from 'react';
 import axios from 'axios';
 
-const PartyBInterface: React.FC = () => {
+const PartyBInterface: FC = () => {
   const [response, setResponse] = useState<string>('');
 
   useEffect(() => {
+    console.log("PartyBInterface-useEffect");
     const fetchData = async () => {
       const result = await axios.get('/api/settlement');
       setResponse(result.data.message);
@@ -41,3 +42,4 @@ const PartyBInterface: React.FC = () => {
 };
 
 export default PartyBInterface;
+export { PartyBInterface };

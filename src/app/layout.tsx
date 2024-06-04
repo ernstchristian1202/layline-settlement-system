@@ -2,7 +2,7 @@
 
 import React from 'react';
 import '../styles/globals.css';
-import { AuthProvider } from '../components/AuthContext';
+import { AuthProvider } from '../components';
 
 const RootLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (

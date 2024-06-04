@@ -1,4 +1,4 @@
-"use client"; // Ensure this is a client component
+"use client";
 
 import React, { useState } from 'react';
 import { useAuth } from './AuthContext';
@@ -33,3 +33,4 @@ const Login: React.FC = () => {
 };
 
 export default Login;
+export { Login };
