@@ -4,7 +4,6 @@ import React from 'react';
 import {
   Login,
   PartB,
-  Response,
   PartA,
   useAuth,
 } from '../components';
@@ -22,7 +21,6 @@ const HomeContent: React.FC = () => {
       {user === 'A' && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <PartA />
-          <Response />
         </div>
       )}
       {user === 'B' && <PartB />}
