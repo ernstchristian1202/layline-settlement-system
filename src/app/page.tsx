@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { FC } from 'react';
 import {
   Login,
   PartB,
@@ -8,7 +8,7 @@ import {
   useAuth,
 } from '../components';
 
-const HomeContent: React.FC = () => {
+const HomeContent: FC = () => {
   const { user } = useAuth();
 
   if (!user) {
@@ -28,7 +28,7 @@ const HomeContent: React.FC = () => {
   );
 };
 
-const Home: React.FC = () => {
+const Home: FC = () => {
   return <HomeContent />;
 };
 

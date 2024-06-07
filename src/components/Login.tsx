@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { FC, FormEvent, useState } from 'react';
 import { useAuth } from './AuthContext';
 
-const Login: React.FC = () => {
+const Login: FC = () => {
   const [username, setUsername] = useState('');
   const { login } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     login(username);
   };

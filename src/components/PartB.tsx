@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import axios from 'axios';
 
-const PartB: React.FC = () => {
+const PartB: FC = () => {
   const [amount, setAmount] = useState(0);
   const [status, setStatus] = useState('');
 

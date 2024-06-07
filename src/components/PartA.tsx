@@ -53,7 +53,7 @@ const PartA: React.FC = () => {
           A
         </div>
       </div>
-      <p>Current Status: &nbsp;<StatusBadge status={statusStr} color={statusColor} /></p>
+      <p>Current Status: &nbsp;{statusStr !== '' && <StatusBadge status={statusStr} color={statusColor} />}</p>
       <input
         type='number'
         value={amount}

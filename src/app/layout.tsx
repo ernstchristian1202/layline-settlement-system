@@ -1,10 +1,10 @@
 "use client";
 
-import React from 'react';
+import React, { FC, ReactNode } from 'react';
 import '../styles/globals.css';
 import { AuthProvider } from '../components';
 
-const RootLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <html>
       <body>
